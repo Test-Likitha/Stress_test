@@ -16,7 +16,7 @@ def main():
 
 def login(driver):
     try:
-        driver.get("https://stg-admin.bjc-online.jp/mypage/login")
+        driver.get("https://stg.bjc-online.jp/mypage/login")
         login_email = driver.find_element(By.ID, "login_email")
         login_pass = driver.find_element(By.ID, "login_pass")
         login_button = driver.find_element(By.CLASS_NAME, "ec-loginRole__formSubmitBtn")
@@ -38,7 +38,7 @@ def click_on_image(driver):
 
 def add_products_to_cart(driver, num_products):
     try:
-        driver.get("https://stg-admin.bjc-online.jp/products/list")
+        driver.get("https://stg.bjc-online.jp/products/list")
         
         confirm_buttons_popup = None
         try:
@@ -57,7 +57,7 @@ def add_products_to_cart(driver, num_products):
             handle_error_message(driver)
 
         # Redirect to cart
-        driver.get("https://stg-admin.bjc-online.jp/cart")
+        driver.get("https://stg.bjc-online.jp/cart")
         scroll_up_and_down(driver)
 
         for _ in range(2):
@@ -66,14 +66,14 @@ def add_products_to_cart(driver, num_products):
             click_action_buttons(driver)
 
         # Redirect to mypage
-        driver.get("https://stg-admin.bjc-online.jp/mypage/")
+        driver.get("https://stg.bjc-online.jp/mypage/")
         click_history_list_header(driver)
         handle_gateway_timeout(driver)
         scroll_down_to_ec_inline_btn(driver)
         click_ec_inline_btn(driver)
 
         # Go to BJC CHARIS&Co. ONLINESTORE
-        driver.get("https://stg-admin.bjc-online.jp/logout")
+        driver.get("https://stg.bjc-online.jp/logout")
         print("Scenario completed successfully.")
 
     except Exception as e:

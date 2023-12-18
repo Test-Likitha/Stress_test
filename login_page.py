@@ -5,7 +5,8 @@ import threading
 def login_scenario(login_email, login_pass):
     try:
         driver = webdriver.Edge()
-        driver.get("https://stg-admin.bjc-online.jp/mypage/login")
+        # driver.get("https://stg-admin.bjc-online.jp/mypage/login")
+        driver.get("https://stg.bjc-online.jp/mypage/login")
 
         while True:
             driver.find_element(By.ID, "login_email").send_keys(login_email)

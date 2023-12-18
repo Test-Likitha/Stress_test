@@ -21,7 +21,8 @@ def main():
 def scenario_one(email, password):
     try:
         driver = webdriver.Edge()
-        driver.get("https://dev-admin.bjc-online.jp/entry")
+        # driver.get("https://dev-admin.bjc-online.jp/entry")
+        driver.get("https://stg.bjc-online.jp/entry")
         driver.find_element(By.CLASS_NAME, "ec-inlineBtn--action").click()
         driver.find_element(By.ID,"entry_email").send_keys(email)
         # driver.find_element(By.XPATH, "//div[@onclick='enterSameAddress()']").click()
