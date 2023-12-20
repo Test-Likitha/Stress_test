@@ -30,9 +30,10 @@ def browsing_scenario():
             select_and_interact_with_product(driver)
             
         navigate_to_bjc_charis(driver)
-        # navigate_to_seminar_page(driver)
-        # close_image_popup(driver)
-        # read_more(driver)
+        navigate_to_seminar_page(driver)
+        close_image_popup(driver)
+        # check the above func again
+        read_more(driver)
         navigate_to_qa(driver)
         scroll_down(driver)
         scroll_up(driver)

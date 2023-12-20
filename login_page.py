@@ -14,14 +14,14 @@ def login_scenario(login_email, login_pass):
 
             driver.find_element(By.CLASS_NAME, "ec-loginRole__formSubmitBtn").click()
 
-            # error_message = driver.find_element(By.CLASS_NAME, "error-message")
+            error_message = driver.find_element(By.CLASS_NAME, "error-message")
             
-            # if "ログインIDまたはパスワードが違います" in error_message.text:
-            #     driver.find_element(By.ID, "login_email").clear()
-            #     driver.find_element(By.ID, "login_pass").clear()
-            # else:
-            #     print(f"Login successful for user: {login_email}")
-            #     break
+            if "ログインIDまたはパスワードが違います" in error_message.text:
+                driver.find_element(By.ID, "login_email").clear()
+                driver.find_element(By.ID, "login_pass").clear()
+            else:
+                print(f"Login successful for user: {login_email}")
+                break
 
     except Exception as e:
         print(f"An error occurred during login for user {login_email}:", e)
@@ -36,7 +36,7 @@ def execute_login_scenario(test_case):
 def main():
     test_cases = [
         ("l-shankar@ar-system.co.jp", "test123456789"),
-        # ("user2@example.com", "password2"),
+        ("user2@example.com", "password2"),
         # add more cases here
     ]
 
