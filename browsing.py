@@ -8,36 +8,35 @@ import threading
 import time
 import random
 
-def main(num_users):
+def main(user_credentials):
     threads = []
 
-    for _ in range(num_users):
-        thread = threading.Thread(target=browsing_scenario)
+    for credentials in user_credentials:
+        thread = threading.Thread(target=browsing_scenario, args=(credentials,))
         threads.append(thread)
         thread.start()
 
     for thread in threads:
         thread.join()
 
-def browsing_scenario():
+def browsing_scenario(credentials):
     try:
-        driver = webdriver.Edge()  
-        login(driver, "l-shankar@ar-system.co.jp", "test123456789")
+        driver = webdriver.Edge()
+        login(driver, credentials[0], credentials[1])
         close_image_popup(driver)
         navigate_to_all_products(driver)
-        
+
         for _ in range(3):
             select_and_interact_with_product(driver)
-            
+
         navigate_to_bjc_charis(driver)
-        navigate_to_seminar_page(driver)
-        close_image_popup(driver)
-        # check the above func again
-        read_more(driver)
         navigate_to_qa(driver)
         scroll_down(driver)
         scroll_up(driver)
         navigate_to_bjc_charis(driver)
+        navigate_to_all_products(driver)
+        for _ in range(5):
+            select_and_interact_with_product(driver)
         logout(driver)
 
     except Exception as e:
@@ -58,12 +57,11 @@ def login(driver, email, password):
         login_pass.send_keys(password)
         login_button.click()
 
-        time.sleep(3) 
+        time.sleep(3)
 
     except Exception as e:
         print("Login failed:", e)
         raise e
-
 
 def close_image_popup(driver):
     try:
@@ -100,20 +98,6 @@ def navigate_to_bjc_charis(driver):
     except Exception as e:
         print("Failed to navigate to BJC CHARIS:", e)
 
-def navigate_to_seminar_page(driver):
-    try:
-        seminar_link = driver.find_element(By.XPATH, "//img[@alt='講習会セミナー']")
-        seminar_link.click()
-    except Exception as e:
-        print("Failed to navigate to seminar page:", e)
-
-def read_more(driver):
-    try:
-        read_more_button = driver.find_element(By.XPATH, "//button[contains(text(), 'Read more')]")
-        read_more_button.click()
-    except Exception as e:
-        print("Failed to click on 'Read more':", e)
-
 def navigate_to_qa(driver):
     try:
         driver.get("https://stg.bjc-online.jp/faq_list")
@@ -123,21 +107,22 @@ def navigate_to_qa(driver):
 def scroll_down(driver):
     actions = ActionChains(driver)
     actions.send_keys(Keys.PAGE_DOWN).perform()
-    time.sleep(1)  
+    time.sleep(1)
 
 def scroll_up(driver):
     actions = ActionChains(driver)
     actions.send_keys(Keys.PAGE_UP).perform()
-    time.sleep(1) 
+    time.sleep(1)
 
 def logout(driver):
     try:
         driver.get("https://stg.bjc-online.jp/logout")
-        # logout_link = driver.find_element(By.CLASS_NAME, "ec-headerMenu__item logout")
-        # logout_link.click()
     except Exception as e:
         print("Failed to logout:", e)
 
 if __name__ == "__main__":
-    num_users_to_run = 1  #  users: 1 to 20
-    main(num_users_to_run)
+    user_credentials = [
+        ("l-shankar@ar-system.co.jp", "test123456789"),
+        ("email2@example.com", "password2"),
+    ]
+    main(user_credentials)
