@@ -15,8 +15,8 @@ report_file_path = os.path.join(desktop_path, "load_report.txt")
 
 def main():
     start_time = time.time()
-    num_users=339
-    login_info = [(f"user{i}@test.com", f"password{i}!!!!") for i in range(300, num_users+1)]
+    num_users=520
+    login_info = [(f"user{i}@test.com", f"password{i}!!!!") for i in range(501, num_users+1)]
     threads = []
     for username, password in login_info:
         thread = threading.Thread(target=scenario_one, args=(username, password))
