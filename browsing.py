@@ -123,6 +123,6 @@ def logout(driver):
 if __name__ == "__main__":
     user_credentials = [
         ("l-shankar@ar-system.co.jp", "test123456789"),
-        ("email2@example.com", "password2"),
+        ("l-shankar1@ar-system.co.jp", "test123456789"),
     ]
     main(user_credentials)
