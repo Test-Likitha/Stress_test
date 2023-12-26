@@ -56,3 +56,17 @@ userkizon17@test.com,test123
         ("userkizon15@test.com", "test123"),
         ("userkizon16@test.com", "test123"),
         ("userkizon17@test.com", "test123"),
+
+
+
+
+    {"email": "user1000@test.com", "password": "test123456789"},
+    {"email": "user1001@test.com", "password": "test123456789"},
+    {"email": "user1002@test.com", "password": "test123456789"},
+    {"email": "user1003@test.com", "password": "test123456789"},
+    {"email": "user1004@test.com", "password": "test123456789"},
+    {"email": "user1005@test.com", "password": "test123456789"},
+    {"email": "l-shankar@ar-system.co.jp", "password": "test123456789"},
+    {"email": "l-shankar1@ar-system.co.jp", "password": "test123456789"},
+    {"email": "userkizon1@test.com", "password": "test123"},
+    {"email": "userkizon2@test.com", "password": "test123"},
