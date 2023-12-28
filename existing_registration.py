@@ -73,7 +73,7 @@ def scenario_one(login_info):
 
         execute_code_block(driver)
         time.sleep(1)
-        execute_code_block(driver)
+        # execute_code_block(driver)
 
         logging.info(f"User ID {login_id} registration successful")
     except Exception as e:
