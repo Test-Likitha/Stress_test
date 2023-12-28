@@ -1,12 +1,17 @@
+import time
+import threading
+import psutil
+import os
+import logging
 from selenium import webdriver
-from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.common.by import By
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-import threading
-import time
-import random
+
+log_file_path = os.path.join(os.path.expanduser("~"), "Desktop", "browsing_log.txt")
+logging.basicConfig(filename=log_file_path, level=logging.INFO, format="%(asctime)s - %(message)s")
 
 def main(user_credentials):
     threads = []
@@ -20,7 +25,9 @@ def main(user_credentials):
         thread.join()
 
 def browsing_scenario(credentials):
+    user_id, email, password = credentials
     try:
+        logging.info(f"User ID {user_id} browsing scenario started")
         driver = webdriver.Edge()
         login(driver, credentials[0], credentials[1])
         close_image_popup(driver)
@@ -39,11 +46,13 @@ def browsing_scenario(credentials):
             select_and_interact_with_product(driver)
         logout(driver)
 
+        logging.info(f"User ID {user_id} browsing scenario successful")
     except Exception as e:
-        print("Browsing scenario failed:", e)
-
+        logging.error(f"User ID {user_id} browsing scenario failed: {e}")
+        print(f"Browsing scenario failed for User ID {user_id}: {e}")
     finally:
-        driver.quit()
+        if driver:
+            driver.quit()
 
 def login(driver, email, password):
     try:
