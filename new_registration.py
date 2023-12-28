@@ -2,24 +2,28 @@ import time
 import threading
 import psutil
 import os
+import logging
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.action_chains import ActionChains
-from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.support.ui import *
+from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+
+# Configure logging
+log_file_path = os.path.join(os.path.expanduser("~"), "Desktop", "new_registration_log.txt")
+logging.basicConfig(filename=log_file_path, level=logging.INFO, format="%(asctime)s - %(message)s")
 
 desktop_path = os.path.join(os.path.expanduser("~"), "Desktop")
 report_file_path = os.path.join(desktop_path, "load_report.txt")
 
 def main():
     start_time = time.time()
-    num_users=520
-    login_info = [(f"user{i}@test.com", f"password{i}!!!!") for i in range(501, num_users+1)]
+    num_users = 1071
+    login_info = [(f"user{i}@test.com", f"password{i}!!!!") for i in range(1071, num_users + 1)]
     threads = []
-    for username, password in login_info:
-        thread = threading.Thread(target=scenario_one, args=(username, password))
+    for i, (username, password) in enumerate(login_info, start=1):
+        thread = threading.Thread(target=scenario_one, args=(i, username, password))
         threads.append(thread)
         thread.start()
 
@@ -29,17 +33,19 @@ def main():
     end_time = time.time()
     elapsed_time = end_time - start_time
 
-    cpu_consumption = psutil.cpu_percent()  
+    cpu_consumption = psutil.cpu_percent()
 
     with open(report_file_path, "w") as report_file:
         report_file.write(f"Time to complete all executions: {elapsed_time:.2f} seconds\n")
         report_file.write(f"CPU consumption: {cpu_consumption}%\n")
 
-def scenario_one(email, password):
+def scenario_one(user_id, email, password):
     try:
+        logging.info(f"User mail {email} registration started")
         driver = webdriver.Edge()
         # driver.get("https://dev-admin.bjc-online.jp/entry")
         driver.get("https://stg.bjc-online.jp/entry")
+
         driver.find_element(By.CLASS_NAME, "ec-inlineBtn--action").click()
         driver.find_element(By.ID,"entry_email").send_keys(email)
         driver.find_element(By.ID,"entry_order_complete_email").send_keys(email)
@@ -86,15 +92,17 @@ def scenario_one(email, password):
                 chkbox.click()
             except:
                 pass
-            
+        
         execute_code_block(driver)
         time.sleep(1)
         execute_code_block(driver)
 
+        logging.info(f"User mail {email} registration successful")
         driver.close()
         time.sleep(20)
 
     except Exception as e:
+        logging.error(f"User mail {email} registration failed: {e}")
         with open(report_file_path, "a") as report_file:
             report_file.write(f"シナリオでエラーが発生しました: {e}\n")
 
