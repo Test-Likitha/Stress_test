@@ -32,6 +32,7 @@ login_credentials = [
     {"email": "userkizon9@test.com", "password": "test123456789"},
 ]
 
+
 def main(num_users):
     threads = []
 
@@ -49,7 +50,7 @@ def browsing_scenario(user_index):
         logging.info(f"User ID {temp["email"]} browsing scenario started")
         driver = webdriver.Edge()  
         login(driver, user_index)
-        add_products_to_cart(driver, 10)
+        add_products_to_cart(driver, 50)
         logout(driver)
         
         # click_on_image(driver)
@@ -119,6 +120,20 @@ def add_to_cart(driver):
         add_cart_button = driver.find_element(By.CLASS_NAME, "ec-blockBtn--action.add-cart")
         add_cart_button.click()
         time.sleep(2)
+        chkbox = driver.find_element(By.ID, "lash-agreement-checkbox")
+        try:
+            ac = ActionChains(driver)
+            mvelmt= ac.move_to_element(chkbox)
+
+            mvelmt.perform()
+        except:
+            pass
+        while(not chkbox.is_selected()):
+            try:
+                chkbox.click()
+            except:
+                pass
+        driver.find_element(By.CLASS_NAME, "button undefined").click()
     except:
         driver.refresh()
 
@@ -186,5 +201,5 @@ def logout(driver):
         print("Failed to logout:", e)
 
 if __name__ == "__main__":
-    num_users_to_run = 2  # number of users
+    num_users_to_run = 1  # number of users
     main(num_users_to_run)
