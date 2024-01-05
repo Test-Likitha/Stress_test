@@ -25,9 +25,9 @@ def main(user_credentials):
         thread.join()
 
 def browsing_scenario(credentials):
-    user_id, email, password = credentials
+    # credentials, email, password = credentials
     try:
-        logging.info(f"User ID {user_id} browsing scenario started")
+        logging.info(f"User ID {credentials} browsing scenario started")
         driver = webdriver.Edge()
         login(driver, credentials[0], credentials[1])
         close_image_popup(driver)
@@ -46,10 +46,10 @@ def browsing_scenario(credentials):
             select_and_interact_with_product(driver)
         logout(driver)
 
-        logging.info(f"User ID {user_id} browsing scenario successful")
+        logging.info(f"User ID {credentials} browsing scenario successful")
     except Exception as e:
-        logging.error(f"User ID {user_id} browsing scenario failed: {e}")
-        print(f"Browsing scenario failed for User ID {user_id}: {e}")
+        logging.error(f"User ID {credentials} browsing scenario failed: {e}")
+        print(f"Browsing scenario failed for User ID {credentials}: {e}")
     finally:
         if driver:
             driver.quit()
