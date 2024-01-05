@@ -8,6 +8,11 @@ from selenium.webdriver.common.action_chains import ActionChains
 import threading
 import time
 import random 
+import logging 
+import os
+
+log_file_path = os.path.join(os.path.expanduser("~"), "Desktop", "addCart_log.txt")
+logging.basicConfig(filename=log_file_path, level=logging.INFO, format="%(asctime)s - %(message)s")
 
 login_credentials = [
     {"email": "user1000@test.com", "password": "test123456789"},
@@ -40,14 +45,21 @@ def main(num_users):
 
 def browsing_scenario(user_index):
     try:
+        temp = login_credentials[user_index % len(login_credentials)]
+        logging.info(f"User ID {temp["email"]} browsing scenario started")
         driver = webdriver.Edge()  
         login(driver, user_index)
         add_products_to_cart(driver, 10)
+        logout(driver)
+        
         # click_on_image(driver)
+        logging.info(f"User ID {temp["email"]} browsing scenario successful")
     except Exception as e:
-        print(f"Scenario for user {user_index + 1} failed:", e)
+        print(f"Scenario for user {temp["email"]} failed:", e)
+        logging.error(f"User ID {temp["email"]} browsing scenario failed: {e}")
     finally:
-        driver.quit()
+        if driver:
+            driver.quit()
 
 def login(driver, user_index):
     try:
@@ -106,6 +118,7 @@ def add_to_cart(driver):
     try:
         add_cart_button = driver.find_element(By.CLASS_NAME, "ec-blockBtn--action.add-cart")
         add_cart_button.click()
+        time.sleep(2)
     except:
         driver.refresh()
 
@@ -166,6 +179,12 @@ def click_history_list_header(driver):
     history_button = driver.find_element(By.CLASS_NAME, "ec-inlineBtn")
     history_button.click()
 
+def logout(driver):
+    try:
+        driver.get("https://stg.bjc-online.jp/logout")
+    except Exception as e:
+        print("Failed to logout:", e)
+
 if __name__ == "__main__":
-    num_users_to_run = 10  # number of users
+    num_users_to_run = 2  # number of users
     main(num_users_to_run)
