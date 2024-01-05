@@ -19,8 +19,8 @@ report_file_path = os.path.join(desktop_path, "load_report.txt")
 
 def main():
     start_time = time.time()
-    num_users = 1071
-    login_info = [(f"user{i}@test.com", f"password{i}!!!!") for i in range(1071, num_users + 1)]
+    num_users = 1091
+    login_info = [(f"user{i}@test.com", f"password{i}!!!!") for i in range(1091, num_users + 1)]
     threads = []
     for i, (username, password) in enumerate(login_info, start=1):
         thread = threading.Thread(target=scenario_one, args=(i, username, password))
@@ -99,7 +99,7 @@ def scenario_one(user_id, email, password):
 
         logging.info(f"User mail {email} registration successful")
         driver.close()
-        time.sleep(20)
+        time.sleep(2)
 
     except Exception as e:
         logging.error(f"User mail {email} registration failed: {e}")
